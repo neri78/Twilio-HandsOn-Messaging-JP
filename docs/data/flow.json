@@ -1,0 +1,107 @@
+{
+    "description": "A New Flow",
+    "states": [
+      {
+        "name": "Trigger",
+        "type": "trigger",
+        "transitions": [
+          {
+            "event": "incomingMessage"
+          },
+          {
+            "next": "gather_1",
+            "event": "incomingCall"
+          },
+          {
+            "event": "incomingRequest"
+          }
+        ],
+        "properties": {
+          "offset": {
+            "x": 0,
+            "y": 0
+          }
+        }
+      },
+      {
+        "name": "gather_1",
+        "type": "gather-input-on-call",
+        "transitions": [
+          {
+            "next": "say_play_1",
+            "event": "keypress"
+          },
+          {
+            "event": "speech"
+          },
+          {
+            "event": "timeout"
+          }
+        ],
+        "properties": {
+          "voice": "Polly.Mizuki",
+          "number_of_digits": 1,
+          "speech_timeout": "auto",
+          "offset": {
+            "x": -420,
+            "y": 180
+          },
+          "loop": 1,
+          "finish_on_key": "#",
+          "say": "お電話ありがとうございます。大変申し訳ありませんが現在不在にしております。折り返しご連絡させていただきますのでご希望される場合はイチを押してください。",
+          "language": "ja-JP",
+          "stop_gather": true,
+          "gather_language": "en",
+          "profanity_filter": "true",
+          "timeout": 5
+        }
+      },
+      {
+        "name": "say_play_1",
+        "type": "say-play",
+        "transitions": [
+          {
+            "next": "send_message_1",
+            "event": "audioComplete"
+          }
+        ],
+        "properties": {
+          "voice": "Polly.Mizuki",
+          "offset": {
+            "x": -150,
+            "y": 410
+          },
+          "loop": 1,
+          "say": "それでは折り返し確認のメッセージをお送りさせていただきます。\nお電話ありがとうございました。",
+          "language": "ja-JP"
+        }
+      },
+      {
+        "name": "send_message_1",
+        "type": "send-message",
+        "transitions": [
+          {
+            "event": "sent"
+          },
+          {
+            "event": "failed"
+          }
+        ],
+        "properties": {
+          "offset": {
+            "x": 154,
+            "y": 581
+          },
+          "service": "{{trigger.message.InstanceSid}}",
+          "channel": "{{trigger.message.ChannelSid}}",
+          "from": "{{flow.channel.address}}",
+          "to": "{{contact.channel.address}}",
+          "body": "先ほどはお電話ありがとうございました。この後 {{trigger.call.To}} より折り返しご連絡させていただきますのしばらくお待ちください。"
+        }
+      }
+    ],
+    "initial_state": "Trigger",
+    "flags": {
+      "allow_concurrent_calls": true
+    }
+  }
