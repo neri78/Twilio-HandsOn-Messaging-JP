@@ -15,7 +15,7 @@ git clone https://github.com/neri78/Twilio-HandsOn-Messaging-SampleApp-JP.git
 クローンあるいは展開が完了したのち、プロジェクトフォルダに移動し次のコマンドで依存パッケージをインストールします。
 
 ```zsh
-cd https://github.com/neri78/Twilio-HandsOn-Messaging-SampleApp-JP
+cd Twilio-HandsOn-Messaging-SampleApp-JP
 npm install
 ```
 
